@@ -333,9 +333,16 @@ splash();
     }
    else{
        if(currentScene===1){ //shows game page when start is clicked
-          background(0, 0, 0);
+          background(255, 255, 255);
+             fill(199, 164, 69);
+             stroke(181, 124, 26);
+             rect(-9,350,419,84,10);
+             strokeWeight(6);
+             stroke(230, 159, 97);
+             line(1,345,400,345);
        }
    }
+   
   };
    mouseClicked = function() { //click function so start button works
     if (currentScene===0){
