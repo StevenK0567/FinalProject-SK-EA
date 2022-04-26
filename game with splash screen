@@ -1,4 +1,47 @@
+
 var stillPlaying = true;
+//Resizable wolf
+var x= 136;
+var y=50;
+var h=144;
+//wolf on spash screen
+var drawWolfSplash = function(x,y,h){
+noStroke();
+fill(145, 145, 145);
+rect(x+(h/150*101),y+(h/150*73),h/150*13,h/150*37,40);
+rect(x+(h/150*60),y+(h/150*73),h/150*13,h/150*37,40);
+//body
+rect(x+(h/150*45),y+(h/150*51),h/150*83,h/150*37,40);
+//legs
+rect(x+(h/150*46),y+(h/150*73),h/150*13,h/150*37,40);
+
+rect(x+(h/150*115),y+(h/150*73),h/150*13,h/150*37,40);
+
+//head
+ellipse(x+(h/150*139),y+(h/150*51),h/150*50,h/150*25);
+
+//eyes
+fill(245, 245, 245);
+ellipse(x+(h/150*145),y+(h/150*47),h/150*10,h/150*10);
+fill(0, 0, 0);
+ellipse(x+(h/150*145),y+(h/150*47),h/150*5,h/150*5);
+
+//nose
+ellipse(x+(h/150*162),y+(h/150*46),h/150*7,h/150*8);
+
+//ears
+fill(145, 145, 145);
+triangle(x+(h/150*127), y+(h/150*28), x+(h/150*133), y+(h/150*43), x+(h/150*119), y+(h/150*46));
+triangle(x+(h/150*133), y+(h/150*28), x+(h/150*139), y+(h/150*43), x+(h/150*124), y+(h/150*46));
+fill(255, 255, 255);
+triangle(x+(h/150*133), y+(h/150*36), x+(h/150*134), y+(h/150*41), x+(h/150*127), y+(h/150*42));
+//tail
+fill(145, 145, 145);
+triangle(x-(h/150*10), y+(h/150*72), x+(h/150*45), y+(h/150*59), x+(h/150*118), y+(h/150*70));
+//mouth
+fill(255, 0, 0);
+triangle(x+(h/150*157), y+(h/150*60), x+(h/150*163), y+(h/150*54), x+(h/150*131), y+(h/150*55));
+};
 var drawBitmojiSteven = function (x,y,h)
 {
 noStroke();
@@ -315,7 +358,7 @@ var Wolf = function(x, y) {
 
 Wolf.prototype.draw = function() {
     fill(255, 0, 0);
-    this.y = constrain(this.y, 0, height - 113);
+    this.y = constrain(this.y, 0, height - 110);
     drawWolf(this.x, this.y, 100);
     
 };
@@ -329,9 +372,10 @@ Wolf.prototype.fall = function() {
 };
 
 Wolf.prototype.checkForRockGrab = function(rock) {
+ ///help
     if ((rock.x >= this.x && rock.x <= (this.x + 40)) &&
-        (rock.y >= this.y && rock.y <= (this.y + 40))) {
-       this.y = 2222;
+        (this.y <= rock.y && rock.y <= (this.y + 40))) {
+  //     println("lol");
     }
 };
 
@@ -343,15 +387,15 @@ var Rock = function(x, y) {
 Rock.prototype.draw = function() {
     fill(89, 71, 0);
     rectMode(CENTER);
-    image(getImage("cute/Rock"), this.x, 319, 12, 33);
+    image(getImage("cute/Rock"), this.x, 291, 25, 66);
     
 };
 
 var wolf = new Wolf(34, 68);
 
 var rocks = [];
-for (var i = 0; i < 40; i++) {  
-    rocks.push(new Rock(i * 157 + 231, random(20, 260)));
+for (var i = 1; i < 11; i++) {  
+    rocks.push(new Rock(i * 413 + 232, random(20, 260)));
 }
 
 var desLand = [];
@@ -396,14 +440,14 @@ draw = function() {
         rocks[i].x -= 5;
     }
     
-    textSize(18);
+  /*  textSize(18);
     text("Score: " + wolf.rocks, 20, 30);
     
     if (wolf.rocks/rocks.length >= 0.95) {
         textSize(36);
         text("YOU WIN!!!!", 100, 200);
     }
-    
+    */
     if (keyIsPressed && keyCode === 0) {
         wolf.hop();
     } else {
@@ -442,9 +486,9 @@ Button.prototype.isMouseInside = function() {
 
 // makes start button
 var startButton = new Button({
-    x: 188,
-    y: 283,
-    label: "START"
+    x: 129,
+    y: 306,
+    label: "      START"
 });
 
 
@@ -452,15 +496,20 @@ var startButton = new Button({
 // main menu
 var drawSplashScreen = function() {
 stillPlaying = false;
-background(222, 112, 53); 
-textSize(28);
-fill(61, 115, 41);
-text("Frogger", 154,46,291,200);
+background(255, 213, 107); 
+textSize(46);
+fill(115, 115, 115);
+text("WOLFY", 132,6,291,200);
 textSize(17);
 fill(0, 0, 0);
-text("To start, click the START button. The goal is to make the bitmoji move up with the space bar and avoid hitting the cars and hit the top of the screen for 10 pt then hit the bottem for 5 pts, hiting a car will decrease your score by 5 pts. You win after reaching 120 pts.  ", 66,103,309,256);
-drawBitmoji(87,284,109);
-drawBitmojiSteven(312,215,100);
+text("how to play", 66,71,309,256);
+drawBitmoji(62,259,109);
+drawBitmojiSteven(341,289,110);
+drawWolfSplash(124,211,129);
+fill(0, 0, 0);
+textSize(16);
+text("Essam Abdulraouf",4,377,580,308);
+text("Steven Kernick",285,377,580,308);
 startButton.draw();
 };
 
