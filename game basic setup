@@ -1,0 +1,141 @@
+//Resizable wolf
+var x= 136;
+var y=50;
+var h=144;
+var drawWolf = function(x,y,h){
+noStroke();
+fill(145, 145, 145);
+//body
+rect(x+(h/84*45),y+(h/118*51),h/150*83,h/193*37,40);
+//legs
+rect(x+(h/150*46),y+(h/150*73),h/150*13,h/150*37,40);
+rect(x+(h/150*101),y+(h/150*73),h/163*13,h/150*37,40);
+rect(x+(h/150*60),y+(h/150*73),h/150*13,h/150*37,40);
+rect(x+(h/150*115),y+(h/150*73),h/150*13,h/150*37,40);
+
+//head
+ellipse(x+(h/150*139),y+(h/150*51),h/150*50,h/150*25);
+
+//eyes
+fill(245, 245, 245);
+ellipse(x+(h/150*145),y+(h/150*47),h/150*10,h/150*10);
+fill(0, 0, 0);
+ellipse(x+(h/150*145),y+(h/150*47),h/150*5,h/150*5);
+
+//nose
+ellipse(x+(h/150*162),y+(h/150*46),h/150*7,h/150*8);
+
+//ears
+fill(145, 145, 145);
+triangle(x+(h/150*127), y+(h/150*28), x+(h/150*133), y+(h/150*43), x+(h/150*119), y+(h/150*46));
+triangle(x+(h/150*133), y+(h/150*28), x+(h/150*139), y+(h/150*43), x+(h/150*124), y+(h/150*46));
+fill(255, 255, 255);
+triangle(x+(h/150*133), y+(h/150*36), x+(h/150*134), y+(h/150*41), x+(h/150*127), y+(h/150*42));
+//tail
+fill(145, 145, 145);
+triangle(x-(h/150*10), y+(h/150*72), x+(h/150*45), y+(h/150*59), x+(h/150*118), y+(h/150*70));
+//mouth
+fill(255, 0, 0);
+triangle(x+(h/150*157), y+(h/150*60), x+(h/150*163), y+(h/150*54), x+(h/150*131), y+(h/150*55));
+};
+var Wolf = function(x, y) {
+    this.x = x;
+    this.y = y;                           
+    this.rocks = 0;
+};
+
+Wolf.prototype.draw = function() {
+    fill(255, 0, 0);
+    this.y = constrain(this.y, 0, height - 113);
+    drawWolf(this.x, this.y, 100);
+    
+};
+
+Wolf.prototype.hop = function() {  
+    this.y -= 5;
+};
+
+Wolf.prototype.fall = function() {
+    this.y += 5;
+};
+
+Wolf.prototype.checkForRockGrab = function(rock) {
+    if ((rock.x >= this.x && rock.x <= (this.x + 40)) &&
+        (rock.y >= this.y && rock.y <= (this.y + 40))) {
+        rock.y = -442;
+        this.rocks++;
+    }
+};
+
+var Rock = function(x, y) {
+    this.x = x;
+    this.y = y;
+};
+
+Rock.prototype.draw = function() {
+    fill(89, 71, 0);
+    rectMode(CENTER);
+    image(getImage("cute/Rock"), this.x, 319, 12, 33);
+    
+};
+
+var wolf = new Wolf(34, 68);
+
+var rocks = [];
+for (var i = 0; i < 40; i++) {  
+    rocks.push(new Rock(i * 157 + 231, random(20, 260)));
+}
+
+var desLand = [];
+for (var i = 0; i < 25; i++) { 
+    desLand.push(i*20);
+}
+
+draw = function() {
+    
+    // static
+    background(221, 252, 252);
+    fill(255, 224, 48);
+    ellipse(362,30,100,100);
+    stroke(255, 224, 48);
+    strokeWeight(5);
+    line(376,78,381,95);
+    line(361,78,359,104);
+    line(343,72,335,92);
+    line(333,54,314,81);
+    line(317,39,295,46);
+    line(322,17,290,19);
+    fill(255, 219, 127);
+    rectMode(CORNER);
+    rect(0, height*0.90, width, height*0.10);
+    
+    for (var i = 0; i < desLand.length; i++) {
+        image(getImage("cute/RoofNorthEast"), desLand[i], height*0.85, 20, 20);
+        desLand[i] -= 1;
+        if (desLand[i] <= -20) {
+            desLand[i] = width;
+        }
+    }
+    
+    for (var i = 0; i < rocks.length; i++) {
+        rocks[i].draw();
+        wolf.checkForRockGrab(rocks[i]);
+        rocks[i].x -= 5;
+    }
+    
+    textSize(18);
+    text("Score: " + wolf.rocks, 20, 30);
+    
+    if (wolf.rocks/rocks.length >= 0.95) {
+        textSize(36);
+        text("YOU WIN!!!!", 100, 200);
+    }
+    
+    if (keyIsPressed && keyCode === 0) {
+        wolf.hop();
+    } else {
+        wolf.fall();
+    }
+    wolf.draw();
+};
+
