@@ -1,0 +1,713 @@
+
+var stillPlaying = true;
+var startTimer = millis();
+//Resizable wolf
+var x= 136;
+var y=50;
+var h=144;
+//wolf on spash screen
+var drawWolfSplash = function(x,y,h){
+noStroke();
+fill(145, 145, 145);
+rect(x+(h/150*101),y+(h/150*73),h/150*13,h/150*37,40);
+rect(x+(h/150*60),y+(h/150*73),h/150*13,h/150*37,40);
+//body
+rect(x+(h/150*45),y+(h/150*51),h/150*83,h/150*37,40);
+//legs
+rect(x+(h/150*46),y+(h/150*73),h/150*13,h/150*37,40);
+
+rect(x+(h/150*115),y+(h/150*73),h/150*13,h/150*37,40);
+
+//head
+ellipse(x+(h/150*139),y+(h/150*51),h/150*50,h/150*25);
+
+//eyes
+fill(245, 245, 245);
+ellipse(x+(h/150*145),y+(h/150*47),h/150*10,h/150*10);
+fill(0, 0, 0);
+ellipse(x+(h/150*145),y+(h/150*47),h/150*5,h/150*5);
+
+//nose
+ellipse(x+(h/150*162),y+(h/150*46),h/150*7,h/150*8);
+
+//ears
+fill(145, 145, 145);
+triangle(x+(h/150*127), y+(h/150*28), x+(h/150*133), y+(h/150*43), x+(h/150*119), y+(h/150*46));
+triangle(x+(h/150*133), y+(h/150*28), x+(h/150*139), y+(h/150*43), x+(h/150*124), y+(h/150*46));
+fill(255, 255, 255);
+triangle(x+(h/150*133), y+(h/150*36), x+(h/150*134), y+(h/150*41), x+(h/150*127), y+(h/150*42));
+//tail
+fill(145, 145, 145);
+triangle(x-(h/150*10), y+(h/150*72), x+(h/150*45), y+(h/150*59), x+(h/150*118), y+(h/150*70));
+//mouth
+fill(255, 0, 0);
+triangle(x+(h/150*157), y+(h/150*60), x+(h/150*163), y+(h/150*54), x+(h/150*131), y+(h/150*55));
+};
+var drawBitmojiSteven = function (x,y,h)
+{
+noStroke();
+fill(255,224,189);//skin tone
+ellipse(x-(h/150),y-(h/150),h/150*83,h/150*100);//head
+fill(255, 255, 255);
+fill(241,204,143);
+quad(x-(h/150*50),y+(h/150*17),x-(h/150*45),y-(h/150*32),x-(h/150*6),y-(h/150*50),x-(h/150*30),y-(h/150*1));//left hair
+fill(241,204,143);//haircolor
+quad(x+(h/150*46),y+(h/150*17),x+(h/150*45),y-(h/150*34),x+(h/150*7),y-(h/150*48),x+(h/150*29),y-(h/150*9));//Right hair
+ellipse(x+(h/150*1),y-(h/150*37),h/150*58,h/150*22);//tophair
+stroke(161, 121, 29);
+fill(255, 255, 255); //outer eye color
+ellipse(x-(h/150*10),y,h/150*15,h/150*12);//outer eye
+ellipse(x+(h/150*12),y+(h/150*1),h/150*15,h/150*12);//right outer eye
+fill(120,126,63); //hazeleyecolor
+ellipse(x-(h/150*10),y,h/150*8,h/150*7);//left eye
+ellipse(x+(h/150*12),y+(h/150*1),h/150*8,h/150*7);//right eye
+fill(0, 0, 0);
+ellipse(x-(h/150*10),y,h/150*3,h/150*3);//left pupil
+ellipse(x+(h/150*12),y+(h/150*1),h/150*3,h/150*3);//right pupil
+stroke(0, 0, 0);
+fill(255,224,189);//skin tone
+bezier(x-(h/150*1),y+(h/150*8),x+(h/150*17),y+(h/150*22),x-(h/150*3),y+(h/150*27),x-(h/150*3),y+(h/150*12));
+//nose
+fill(255, 255, 255);
+arc(x+(h/150*2),y+(h/150*27),h/150*30,h/150*12,1,180);//mouth
+line(x-(h/150*14),y+(h/150*26),x+(h/150*17),y+(h/150*26));
+noStroke();
+fill(241,204,143);
+arc(x+(h/150*2),y+(h/150*41),h/150*22,h/150*12,1,180);//beard
+fill(255,189,189);
+quad(x-(h/150*61),y+(h/150*38),x+(h/150*9),y+(h/150*49),x-(h/150*1),y+(h/150*105),x-(h/150*70),y+(h/150*98));//left shirt
+quad(x+(h/150*63),y+(h/150*104),x+(h/150*75),y+(h/150*41),x,y+(h/150*50),x-(h/150*5),y+(h/150*105));//right shirt 
+fill(0, 0, 0);//intial color
+textSize(20);//inital size
+text("S.K",x-(h/150*12),y+(h/150*77),h/150*11,h/150*11);//intials
+fill(255,250,200);//hat color
+arc(x-(h/150*2),y-(h/150*36),h/150*79,h/150*34,0,371);//beanie
+ellipse(x-(h/150*3),y-(h/150*59),h/150*66,h/150*30);//beanie
+fill(212, 212, 212);//label color
+rect(x-(h/150*13),y-(h/150*41),h/150*24,h/150*16,4);//label
+fill(235, 167, 167);//label font color
+textSize(10);
+text("carhart",x-(h/150*13),y-(h/150*37),h/150*27,h/150*10);//label text
+};//Bitmoji Avatar
+
+var drawBitmojiFace = function(bitmojiX, bitmojiY, bitmojiHeight) {
+
+  //head
+  strokeWeight(1);
+fill(250, 233, 165);
+stroke(0, 0, 0);
+ellipse(bitmojiX, bitmojiY, bitmojiHeight/150*69, bitmojiHeight/150*83);
+
+//hair
+stroke(0, 0, 0);
+fill(0, 0, 0);
+ellipse(bitmojiX + (bitmojiHeight/150*3), bitmojiY - (bitmojiHeight/150*29), bitmojiHeight/150*14, bitmojiHeight/150*10);
+ellipse(bitmojiX - (bitmojiHeight/150*9), bitmojiY - (bitmojiHeight/150*29), bitmojiHeight/150*14, bitmojiHeight/150*10);
+ellipse(bitmojiX - (bitmojiHeight/150*19), bitmojiY - (bitmojiHeight/150*29), bitmojiHeight/150*14, bitmojiHeight/150*10);
+ellipse(bitmojiX + (bitmojiHeight/150*14), bitmojiY - (bitmojiHeight/150*29), bitmojiHeight/150*14, bitmojiHeight/150*10);
+ellipse(bitmojiX + (bitmojiHeight/150*25), bitmojiY - (bitmojiHeight/150*24), bitmojiHeight/150*14, bitmojiHeight/150*10);
+ellipse(bitmojiX + (bitmojiHeight/150*9), bitmojiY - (bitmojiHeight/150*37), bitmojiHeight/150*14, bitmojiHeight/150*10);
+ellipse(bitmojiX + (bitmojiHeight/150*18), bitmojiY - (bitmojiHeight/150*32), bitmojiHeight/150*14, bitmojiHeight/150*10);
+ellipse(bitmojiX + (bitmojiHeight/150*31), bitmojiY - (bitmojiHeight/150*17), bitmojiHeight/150*8, bitmojiHeight/150*10);
+ellipse(bitmojiX - (bitmojiHeight/150*1), bitmojiY - (bitmojiHeight/150*38), bitmojiHeight/150*14, bitmojiHeight/150*10);
+ellipse(bitmojiX - (bitmojiHeight/150*13), bitmojiY - (bitmojiHeight/150*35), bitmojiHeight/150*14, bitmojiHeight/150*10);
+ellipse(bitmojiX - (bitmojiHeight/150*24), bitmojiY - (bitmojiHeight/150*22), bitmojiHeight/150*8, 10);
+ellipse(bitmojiX - (bitmojiHeight/150*29), bitmojiY - (bitmojiHeight/150*16), bitmojiHeight/150*8, bitmojiHeight/150*10);
+ellipse(bitmojiX - (bitmojiHeight/150*20), bitmojiY - (bitmojiHeight/150*24), bitmojiHeight/150*8, bitmojiHeight/150*10);
+ellipse(bitmojiX + (bitmojiHeight/150*31), bitmojiY - (bitmojiHeight/150*14), bitmojiHeight/150*8, bitmojiHeight/150*10);
+
+
+//left-eye
+strokeWeight(1);
+fill(255, 255, 255);
+ellipse(bitmojiX - (bitmojiHeight/150*12), bitmojiY - (bitmojiHeight/150*10), bitmojiHeight/150*14, bitmojiHeight/150*10);
+
+//right-eye
+fill(255, 255, 255);
+ellipse(bitmojiX + (bitmojiHeight/150*13), bitmojiY - (bitmojiHeight/150*10), bitmojiHeight/150*14, bitmojiHeight/150*10);
+
+
+//right-eye-iris
+fill(52, 130, 42);
+ellipse(bitmojiX + (bitmojiHeight/150*13), bitmojiY - (bitmojiHeight/150*10), bitmojiHeight/150*7, bitmojiHeight/150*7);
+
+//left-eye-iris
+fill(52, 130, 42);
+ellipse(bitmojiX - (bitmojiHeight/150*12), bitmojiY - (bitmojiHeight/150*10), bitmojiHeight/150*7, bitmojiHeight/150*7);
+
+//left-pupil
+fill(0, 0, 0);
+ellipse(bitmojiX - (bitmojiHeight/150*12), bitmojiY - (bitmojiHeight/150*10), bitmojiHeight/150*1, bitmojiHeight/150*1);
+
+//right-pupil
+fill(0, 0, 0);
+ellipse(bitmojiX + (bitmojiHeight/150*13), bitmojiY - (bitmojiHeight/150*10), bitmojiHeight/150*1, bitmojiHeight/150*1);
+fill(0, 0, 0);
+
+//left-ear
+fill(250, 233, 165);
+arc(bitmojiX - (bitmojiHeight/150*34), bitmojiY + (bitmojiHeight/150*0), bitmojiHeight/150*11, bitmojiHeight/150*19, 90, 270 );
+
+//right-ear
+fill(250, 233, 165);
+ arc(bitmojiX + (bitmojiHeight/150*34), bitmojiY - (bitmojiHeight/150*0), bitmojiHeight/150*11, bitmojiHeight/150*19, 270, 450 ); 
+
+ //mouth
+fill(255, 0, 0);
+    stroke(0);
+    strokeWeight(bitmojiHeight/150*1);
+    arc(bitmojiX + (bitmojiHeight/150*1), bitmojiY + (bitmojiHeight/150*15), bitmojiHeight/150*21, bitmojiHeight/150*5, 1, 180);
+
+//gotee
+    fill(0, 0, 0);
+triangle (bitmojiX - (bitmojiHeight/150*5), bitmojiY + (bitmojiHeight/150*21), bitmojiX + (bitmojiHeight/150*6), bitmojiY + (bitmojiHeight/150* 21),bitmojiX + (bitmojiHeight/150*1), bitmojiY + (bitmojiHeight/150*26));
+fill(255, 0, 0);
+
+//chinbeard
+fill(0, 0, 0);
+strokeWeight(1);
+ellipse(bitmojiX - (bitmojiHeight/150*0), bitmojiY + (bitmojiHeight/150*35), bitmojiHeight/150*30, bitmojiHeight/150*11);
+
+//nose
+stroke(0, 0, 0);
+strokeWeight(bitmojiHeight/150*1);
+fill(250, 233, 165);
+arc(bitmojiX + (bitmojiHeight/150*1), bitmojiY + (bitmojiHeight/150*4), bitmojiHeight/150*12, bitmojiHeight/150*5, 1, 180);
+
+//mustache
+stroke(0, 0, 0);
+strokeWeight(bitmojiHeight/150*1);
+fill(250, 233, 165);
+arc(bitmojiX + (bitmojiHeight/150*1), bitmojiY + (bitmojiHeight/150*15), bitmojiHeight/150*25, bitmojiHeight/150*4, 180, 360);
+
+//right-eyebrow
+stroke(0, 0, 0);
+strokeWeight(bitmojiHeight/150*1.03);
+fill(250, 233, 165);
+arc(bitmojiX + (bitmojiHeight/150*13), bitmojiY - (bitmojiHeight/150*16), bitmojiHeight/150*15, bitmojiHeight/150*3, 154, 371);
+
+//left-eyebrow
+stroke(0, 0, 0);
+strokeWeight(bitmojiHeight/150*1.03);
+fill(250, 233, 165);
+arc(bitmojiX - (bitmojiHeight/150*13), bitmojiY - (bitmojiHeight/150*16), bitmojiHeight/150*15, bitmojiHeight/150*3, 154, 371);
+
+};
+var drawBitmojiBody = function(bitmojiX, bitmojiY, bitmojiHeight) {
+    //neck
+fill(250, 233, 165);
+rect(bitmojiX - (bitmojiHeight/150*17), bitmojiY + (bitmojiHeight/150*26), bitmojiHeight/150*30, bitmojiHeight/150*50, bitmojiHeight/150*30);
+//body
+fill(250, 233, 165);
+stroke(250, 233, 165);
+rect(bitmojiX - (bitmojiHeight/1170*254), bitmojiY + (bitmojiHeight/70*25), bitmojiHeight/150*70, bitmojiHeight/150*91, bitmojiHeight/150*30);
+
+//shoulders
+stroke(250, 233, 165);
+fill(250, 233, 165);
+arc(bitmojiX + (bitmojiHeight/150*35), bitmojiY + (bitmojiHeight/150*80), bitmojiHeight/150*50, bitmojiHeight/150*50, 180, 348);
+stroke(250, 233, 165);
+fill(250, 233, 165);
+arc(bitmojiX - (bitmojiHeight/150*29), bitmojiY + (bitmojiHeight/150*80), bitmojiHeight/150*50, bitmojiHeight/150*50, 195, 360);
+
+//left-peck
+stroke(0, 0, 0);
+strokeWeight(bitmojiHeight/150*0.3);
+rect(bitmojiX - (bitmojiHeight/150*27), bitmojiY + (bitmojiHeight/150*60), bitmojiHeight/150*28, bitmojiHeight/150*25, bitmojiHeight/150*10);
+
+//right-peck
+stroke(0, 0, 0);
+strokeWeight(bitmojiHeight/150*0.3);
+rect(bitmojiX + (bitmojiHeight/150*4), bitmojiY + (bitmojiHeight/150*60), bitmojiHeight/150*28, bitmojiHeight/150*25, bitmojiHeight/150*10);
+
+//abs
+stroke(0, 0, 0);
+strokeWeight(bitmojiHeight/150*0.2);
+rect(bitmojiX + (bitmojiHeight/150*6), bitmojiY + (bitmojiHeight/150*88), bitmojiHeight/150*21, bitmojiHeight/150*11, bitmojiHeight/150*10);
+rect(bitmojiX + (bitmojiHeight/150*6), bitmojiY + (bitmojiHeight/150*101), bitmojiHeight/150*19, bitmojiHeight/150*11, bitmojiHeight/150*10);
+rect(bitmojiX + (bitmojiHeight/150*6), bitmojiY + (bitmojiHeight/150*113), bitmojiHeight/150*17, bitmojiHeight/150*11,bitmojiHeight/150* 10);
+rect(bitmojiX - (bitmojiHeight/150*18), bitmojiY + (bitmojiHeight/150*88), bitmojiHeight/150*21, bitmojiHeight/150*11, bitmojiHeight/150*10);
+rect(bitmojiX - (bitmojiHeight/150*16), bitmojiY + (bitmojiHeight/150*101),bitmojiHeight/150* 19, bitmojiHeight/150*11, bitmojiHeight/150*10);
+rect(bitmojiX - (bitmojiHeight/150*14), bitmojiY + (bitmojiHeight/150*113), bitmojiHeight/150*17, bitmojiHeight/150*11, bitmojiHeight/150*10);
+
+//right-nipple
+fill(244, 204, 245);
+ellipse( bitmojiX + (bitmojiHeight/150*22), bitmojiY + (bitmojiHeight/150*76), bitmojiHeight/150*5, bitmojiHeight/150*5);
+
+//left-nipple
+fill(244, 204, 245);
+ellipse(bitmojiX - (bitmojiHeight/150*16), bitmojiY + (bitmojiHeight/150*76), bitmojiHeight/150*5, bitmojiHeight/150*5);
+
+//chain
+noFill();
+stroke(145, 145, 145);
+strokeWeight(bitmojiHeight/150*2);
+ellipse( bitmojiX + (bitmojiHeight/150*2), bitmojiY + (bitmojiHeight/150*66), bitmojiHeight/150*5, bitmojiHeight/150*5);
+ellipse( bitmojiX - (bitmojiHeight/150*3), bitmojiY + (bitmojiHeight/150*65), bitmojiHeight/150*5, bitmojiHeight/150*5);
+ellipse( bitmojiX + (bitmojiHeight/150*6), bitmojiY + (bitmojiHeight/150*65),bitmojiHeight/150* 5, bitmojiHeight/150*5);
+ellipse( bitmojiX + (bitmojiHeight/150*11), bitmojiY + (bitmojiHeight/150*63), bitmojiHeight/150*5, bitmojiHeight/150*5);
+ellipse( bitmojiX - (bitmojiHeight/150*8), bitmojiY + (bitmojiHeight/150*63), bitmojiHeight/150*5, bitmojiHeight/150*5);
+ellipse( bitmojiX + (bitmojiHeight/150*15), bitmojiY + (bitmojiHeight/150*60), bitmojiHeight/150*5, bitmojiHeight/150*5);
+ellipse( bitmojiX - (bitmojiHeight/150*13), bitmojiY + (bitmojiHeight/150*60), bitmojiHeight/150*5, bitmojiHeight/150*5);
+ellipse( bitmojiX - (bitmojiHeight/150*16), bitmojiY + (bitmojiHeight/150*57), bitmojiHeight/150*5, bitmojiHeight/150*5);
+ellipse( bitmojiX + (bitmojiHeight/150*17), bitmojiY + (bitmojiHeight/150*56), bitmojiHeight/150*5, bitmojiHeight/150*5);
+stroke(181, 172, 0);
+
+//right-arm
+stroke(250, 233, 165);
+strokeWeight(bitmojiHeight/150*23);
+line(bitmojiX + (bitmojiHeight/150*52), bitmojiY + (bitmojiHeight/150*95), (bitmojiX + bitmojiHeight/150*47), bitmojiY + (bitmojiHeight/150*72));
+strokeWeight(bitmojiHeight/150*18);
+line(bitmojiX + (bitmojiHeight/150*60), bitmojiY + (bitmojiHeight/150*124), bitmojiX + (bitmojiHeight/150*47), bitmojiY + (bitmojiHeight/150*75));
+
+//left-arm
+stroke(250, 233, 165);
+strokeWeight(bitmojiHeight/150*23);
+line(bitmojiX - (bitmojiHeight/150*49), bitmojiY + (bitmojiHeight/150*95),bitmojiX - (bitmojiHeight/150* 44), bitmojiY + (bitmojiHeight/150*77));
+strokeWeight(bitmojiHeight/150*18);
+line(bitmojiX - (bitmojiHeight/150*57), bitmojiY + (bitmojiHeight/150*125), bitmojiX - (bitmojiHeight/150*45), bitmojiY + (bitmojiHeight/150*75));
+
+//bracelet
+stroke(0, 32, 194);
+strokeWeight(bitmojiHeight/150*2);
+fill(0, 32, 194);
+ellipse( bitmojiX + (bitmojiHeight/150*67), bitmojiY + (bitmojiHeight/150*118), bitmojiHeight/150*3, bitmojiHeight/150*3);
+ellipse( bitmojiX + (bitmojiHeight/150*63), bitmojiY + (bitmojiHeight/150*119), bitmojiHeight/150*3, bitmojiHeight/150*3);
+ellipse( bitmojiX + (bitmojiHeight/150*59), bitmojiY + (bitmojiHeight/150*120), bitmojiHeight/150*3, bitmojiHeight/150*3);
+ellipse(bitmojiX + (bitmojiHeight/150* 55), bitmojiY + (bitmojiHeight/150*121), bitmojiHeight/150*3, bitmojiHeight/150*3);
+ellipse( bitmojiX + (bitmojiHeight/150*51), bitmojiY + (bitmojiHeight/150*121), bitmojiHeight/150*3, bitmojiHeight/150*3);
+
+//right-hand-fingers
+stroke(250, 233, 165);
+strokeWeight(bitmojiHeight/150*5);
+line(bitmojiX + (bitmojiHeight/150*54), bitmojiY + (bitmojiHeight/150*127), bitmojiX + (bitmojiHeight/150*50), bitmojiY + (bitmojiHeight/150*135));
+strokeWeight(bitmojiHeight/150*4.5);
+line(bitmojiX + (bitmojiHeight/150*59), bitmojiY + (bitmojiHeight/150*127), bitmojiX + (bitmojiHeight/150*56), bitmojiY + (bitmojiHeight/150*142));
+line(bitmojiX + (bitmojiHeight/150*63), bitmojiY + (bitmojiHeight/150*129), bitmojiX + (bitmojiHeight/150*64), bitmojiY + (bitmojiHeight/150*143));
+line(bitmojiX + (bitmojiHeight/150*67), bitmojiY + (bitmojiHeight/150*127), bitmojiX + (bitmojiHeight/150*72), bitmojiY + (bitmojiHeight/150*140));
+line(bitmojiX + (bitmojiHeight/150*69), bitmojiY + (bitmojiHeight/150*124), bitmojiX + (bitmojiHeight/150*78), bitmojiY + (bitmojiHeight/150*134));
+
+//left-hand-fingers
+stroke(250, 233, 165);
+strokeWeight(bitmojiHeight/150*5);
+line(bitmojiX - (bitmojiHeight/150*64), bitmojiY + (bitmojiHeight/150*127),bitmojiX - (bitmojiHeight/150* 69), bitmojiY + (bitmojiHeight/150*135));
+strokeWeight(bitmojiHeight/150*4.5);
+line(bitmojiX - (bitmojiHeight/150*61), bitmojiY + (bitmojiHeight/150*127), bitmojiX - (bitmojiHeight/150*63), bitmojiY + (bitmojiHeight/150*142));
+line(bitmojiX - (bitmojiHeight/150*58), bitmojiY + (bitmojiHeight/150*121), bitmojiX - (bitmojiHeight/150*55), bitmojiY + (bitmojiHeight/150*144));
+line(bitmojiX - (bitmojiHeight/150*56), bitmojiY + (bitmojiHeight/150*119), bitmojiX - (bitmojiHeight/150*48), bitmojiY + (bitmojiHeight/150*140));
+line(bitmojiX - (bitmojiHeight/150*52), bitmojiY + (bitmojiHeight/150*120), bitmojiX - (bitmojiHeight/150*44), bitmojiY + (bitmojiHeight/150*132));
+
+//initials
+stroke(181, 172, 0);
+strokeWeight(bitmojiHeight/150*3);
+line(bitmojiX + (bitmojiHeight/150*57), bitmojiY + (bitmojiHeight/150*83), bitmojiX + (bitmojiHeight/150*51), bitmojiY + (bitmojiHeight/150*66));
+line(bitmojiX + (bitmojiHeight/150*47), bitmojiY + (bitmojiHeight/150*83), bitmojiX + (bitmojiHeight/150*50), bitmojiY + (bitmojiHeight/150*66));
+line(bitmojiX + (bitmojiHeight/150*54), bitmojiY + (bitmojiHeight/150*76), bitmojiX + (bitmojiHeight/150*48), bitmojiY + (bitmojiHeight/150*76));
+line(bitmojiX - (bitmojiHeight/150*48), bitmojiY + (bitmojiHeight/150*70), bitmojiX - (bitmojiHeight/150*48), bitmojiY + (bitmojiHeight/150*85));
+line(bitmojiX - (bitmojiHeight/150*48), bitmojiY + (bitmojiHeight/150*69), bitmojiX - (bitmojiHeight/150*40), bitmojiY + (bitmojiHeight/150*69));
+line(bitmojiX - (bitmojiHeight/150*46), bitmojiY + (bitmojiHeight/150*78), bitmojiX - (bitmojiHeight/150*43), bitmojiY + (bitmojiHeight/150*78));
+line(bitmojiX - (bitmojiHeight/150*48), bitmojiY + (bitmojiHeight/150*87), bitmojiX - (bitmojiHeight/150*40), bitmojiY + (bitmojiHeight/150*87));
+
+};
+//draw function for wholle bitmoji
+var drawBitmoji = function(bitmojiX, bitmojiY, bitmojiHeight) {
+    drawBitmojiBody(bitmojiX, bitmojiY, bitmojiHeight);
+    drawBitmojiFace(bitmojiX, bitmojiY, bitmojiHeight);
+};
+//Resizable wolf
+var drawWolf = function(x,y,h){
+noStroke();
+fill(145, 145, 145);
+//body
+rect(x+(h/84*45),y+(h/118*51),h/150*83,h/193*37,40);
+//legs
+rect(x+(h/150*46),y+(h/150*73),h/150*13,h/150*37,40);
+rect(x+(h/150*101),y+(h/150*73),h/163*13,h/150*37,40);
+rect(x+(h/150*60),y+(h/150*73),h/150*13,h/150*37,40);
+rect(x+(h/150*115),y+(h/150*73),h/150*13,h/150*37,40);
+
+//head
+ellipse(x+(h/150*139),y+(h/150*51),h/150*50,h/150*25);
+
+//eyes
+fill(245, 245, 245);
+ellipse(x+(h/150*145),y+(h/150*47),h/150*10,h/150*10);
+fill(0, 0, 0);
+ellipse(x+(h/150*145),y+(h/150*47),h/150*5,h/150*5);
+
+//nose
+ellipse(x+(h/150*162),y+(h/150*46),h/150*7,h/150*8);
+
+//ears
+fill(145, 145, 145);
+triangle(x+(h/150*127), y+(h/150*28), x+(h/150*133), y+(h/150*43), x+(h/150*119), y+(h/150*46));
+triangle(x+(h/150*133), y+(h/150*28), x+(h/150*139), y+(h/150*43), x+(h/150*124), y+(h/150*46));
+fill(255, 255, 255);
+triangle(x+(h/150*133), y+(h/150*36), x+(h/150*134), y+(h/150*41), x+(h/150*127), y+(h/150*42));
+//tail
+fill(145, 145, 145);
+triangle(x-(h/150*10), y+(h/150*72), x+(h/150*45), y+(h/150*59), x+(h/150*118), y+(h/150*70));
+//mouth
+fill(255, 0, 0);
+triangle(x+(h/150*157), y+(h/150*60), x+(h/150*163), y+(h/150*54), x+(h/150*131), y+(h/150*55));
+};
+var Wolf = function(x, y) {
+    this.x = x;
+    this.y = y;                           
+    this.rocks = 0;
+    this.chest = 0;   
+    this.star = 0;
+    this.dragon = 0;
+    this.middleX = 0;
+    this.middleY = 0;
+};
+
+Wolf.prototype.updateMiddleXandY = function() {
+    this.middleX = this.x + 39;
+    this.middleY = this.y + 25;
+};
+
+Wolf.prototype.draw = function() {
+    this.updateMiddleXandY();
+    
+    fill(255, 0, 0);
+    this.y = constrain(this.y, 0, height - 97);
+    drawWolf(this.x, this.y, 70);
+    fill(255, 0, 0);
+    ellipse(this.middleX, this.middleY, 5,5);
+
+};
+
+Wolf.prototype.hop = function() {  
+    this.y -= 5;
+};
+
+Wolf.prototype.fall = function() {
+    this.y += 5;
+};
+
+Wolf.prototype.checkForRockGrab = function(rock) {
+ ///help
+    if(rock.middleX > (this.middleX - 20) && rock.middleX < (this.middleX + 20) && rock.middleY > (this.middleY - 20) && rock.middleY < (this.middleY + 20)) { 
+       Program.restart();
+    }
+};
+
+Wolf.prototype.checkForChestGrab = function(chest) {
+ ///help
+    if(chest.middleX > (this.middleX - 20) && chest.middleX < (this.middleX + 20) && chest.middleY > (this.middleY - 20) && chest.middleY < (this.middleY + 20)) { 
+       Program.restart();
+    }
+};
+
+Wolf.prototype.checkForStarGrab = function(star) {
+  if(star.x > (this.x - 20) && star.x < (this.x + 20) && star.y > (this.y - 20) && star.y < (this.y + 20)) { 
+       Program.restart();
+    }
+};
+
+Wolf.prototype.checkForDragonGrab = function(dragon) {
+ ///help
+    if(dragon.x > (this.middleX - 20) && dragon.x < (this.middleX + 20) && dragon.y > (this.middleY - 20) && dragon.y < (this.middleY + 20)) {
+      Program.restart();
+    }
+};
+
+var Rock = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.middleX = 0;
+    this.middleY = 0;
+};
+
+Rock.prototype.updateMiddleXandY = function() {
+    this.middleX = this.x;
+    this.middleY = this.y + 8;
+};
+var Dragon = function(x, y) {
+    this.x = x;
+    this.y = y;
+};
+
+var Chest = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.middleX = 0;
+    this.middleY = 0;
+};
+Chest.prototype.updateMiddleXandY = function() {
+    this.middleX = this.x;
+    this.middleY = this.y + 5;
+};
+
+var Star = function(x, y) {
+    this.x = x;
+    this.y = y;
+};
+
+Rock.prototype.draw = function() {
+    rectMode(CENTER);
+    imageMode(CENTER);
+    ellipseMode(CENTER);
+    fill(89, 71, 0);
+    image(getImage("cute/Rock"), this.x, this.y, 24, 66);
+    this.updateMiddleXandY();
+    fill(255, 0, 0);
+    ellipse(this.middleX, this.middleY, 10,10);
+
+};
+
+Dragon.prototype.draw = function() {
+    rectMode(CENTER);
+    imageMode(CENTER);
+    ellipseMode(CENTER);
+    fill(89, 71, 0);
+    image(getImage("avatars/aqualine-ultimate"), this.x, this.y, 42, 66);
+    fill(255, 0, 0);
+    ellipse(this.x, this.y, 10,10);
+
+};
+
+Chest.prototype.draw = function() {
+    rectMode(CENTER);
+    imageMode(CENTER);
+    ellipseMode(CENTER);
+    fill(89, 71, 0);
+    image(getImage("cute/ChestClosed"), this.x, this.y, 24, 50);
+    this.updateMiddleXandY();
+    fill(255, 0, 0);
+    ellipse(this.middleX, this.middleY, 10,10);
+};
+
+Star.prototype.draw = function() {
+    rectMode(CENTER);
+    imageMode(CENTER);
+    ellipseMode(CENTER);
+    fill(0, 0, 0);
+    image(getImage("cute/Star"), this.x, this.y, 40, 60);
+    fill(255, 0, 0);
+    ellipse(this.x, this.y, 10,10);
+};
+var wolf = new Wolf(34, 68);
+
+var rocks = [];
+for (var i = 1; i < 11; i++) {  
+    rocks.push(new Rock(i * 413 + 232, 318));
+}
+
+var chests = [];
+for (var i = 1; i < 11; i++) {  
+    chests.push(new Chest(i * 413 + 232, 320));
+}
+
+var stars = [];
+for (var i = 1; i < 15; i++) {  
+    stars.push(new Star(i * 413 + 232, random(300, 150)));
+}
+
+var dragon = [];
+for (var i = 1; i < 11; i++) {  
+    dragon.push(new Dragon(i * 451 + 232, random(142, 150)));
+}
+
+var desLand = [];
+for (var i = 0; i < 79; i++) { 
+    desLand.push(i*20);
+}
+
+draw = function() {
+
+    if(stillPlaying === false){
+        return;
+    }
+
+    rectMode(CENTER);
+    imageMode(CENTER);
+    ellipseMode(CENTER);
+
+    // static
+    background(221, 252, 252);
+    fill(255, 224, 48);
+    ellipse(362,30,100,100);
+    stroke(255, 224, 48);
+    strokeWeight(5);
+    line(376,78,381,95);
+    line(361,78,359,104);
+    line(343,72,335,92);
+    line(333,54,314,81);
+    line(317,39,295,46);
+    line(322,17,290,19);
+    fill(255, 219, 127);
+    rect(200, height*0.95, width, height*0.16);
+    fill(0, 0, 0);
+    textSize(20);
+    text("Score: " + round((millis() - startTimer)/50),5,22);
+
+    for (var i = 0; i < desLand.length; i++) {
+        image(getImage("cute/RoofNorthEast"), desLand[i], height*0.86, 20, 20);
+        desLand[i] -= 1;
+        if (desLand[i] <= -20) {
+            desLand[i] = width;
+        }
+    }
+
+    for (var i = 0; i < rocks.length; i++) {
+        rocks[i].draw();
+        wolf.checkForRockGrab(rocks[i]);
+        rocks[i].x -= 5;
+    }
+    
+     //Changes to chest image after score reaches 320
+    if (((millis() - startTimer)/50) > 340) {
+       for(var i = 0; i < chests.length; i++) {
+            chests[i].draw();
+            wolf.checkForChestGrab(chests[i]);
+            chests[i].x -= 5;
+       }
+    } 
+// adds dragons over chests
+    if (((millis() - startTimer)/50) > 340) {
+       for(var i = 0; i < dragon.length; i++) {
+            dragon[i].draw();
+            wolf.checkForDragonGrab(dragon[i]);
+            dragon[i].x -= 8;
+       }
+    }
+         
+// changes the scene to night time
+    if (((millis() - startTimer)/50) > 640) {
+        background(121, 50, 235);
+        noStroke();
+        fill(227, 227, 193);
+        arc(344,60,97,112,292,513);
+        strokeWeight(5);
+        fill(255, 219, 127);
+        rect(200, height*0.95, width, height*0.16); 
+        fill(0, 0, 0);
+        fill(0, 0, 0);
+        textSize(20);
+        fill(255, 255, 255);
+        text("Score: " + round((millis() - startTimer)/50),5,22);
+        for (var i = 0; i < desLand.length; i++) {
+            image(getImage("cute/RoofNorthEast"), desLand[i], height*0.86, 20, 20);
+            desLand[i] -= 1;
+            if (desLand[i] <= -20) {
+                desLand[i] = width;
+            }
+        }
+    }
+    if (((millis() - startTimer)/50) > 660) {
+       for(var i = 0; i < stars.length; i++) {
+            stars[i].draw();
+            wolf.checkForStarGrab(stars[i]);
+            stars[i].x -= 8;   
+       }
+    }
+    
+    // changes to final scene
+    if (((millis() - startTimer)/50) > 640) {
+        background(121, 50, 235);
+        noStroke();
+        fill(227, 227, 193);
+        arc(344,60,97,112,292,513);
+        strokeWeight(5);
+        fill(255, 219, 127);
+        rect(200, height*0.95, width, height*0.16); 
+        fill(0, 0, 0);
+        fill(0, 0, 0);
+        textSize(20);
+        fill(255, 255, 255);
+        text("Score: " + round((millis() - startTimer)/50),5,22);
+        for (var i = 0; i < desLand.length; i++) {
+            image(getImage("cute/RoofNorthEast"), desLand[i], height*0.86, 20, 20);
+            desLand[i] -= 1;
+            if (desLand[i] <= -20) {
+                desLand[i] = width;
+            }
+        }
+    }
+    
+
+  /*  textSize(18);
+    text("Score: " + wolf.rocks, 20, 30);
+
+    if (wolf.rocks/rocks.length >= 0.95) {
+        textSize(36);
+        text("YOU WIN!!!!", 100, 200);
+    }
+    */
+    if (keyIsPressed && keyCode === 0) {
+        wolf.hop();
+    } 
+    else {
+        wolf.fall();
+    }
+
+    wolf.draw();
+};
+
+
+
+//constructor for buttons
+var Button = function(config) {
+    this.x = config.x || 0;
+    this.y = config.y || 0;
+    this.width = config.width || 150;
+    this.height = config.height || 50;
+    this.label = config.label || "Click";
+};
+// prottype for button
+Button.prototype.draw = function() {
+    fill(255, 255, 255);
+    rect(this.x, this.y, this.width, this.height, 5);
+    fill(0, 0, 0);
+    textSize(19);
+    textAlign(LEFT, TOP);
+    text(this.label, this.x+10, this.y+this.height/4);
+};
+//maks button pressable
+Button.prototype.isMouseInside = function() {
+    return mouseX > this.x &&
+           mouseX < (this.x + this.width) &&
+           mouseY > this.y &&
+           mouseY < (this.y + this.height);
+};
+
+// makes start button
+var startButton = new Button({
+    x: 129,
+    y: 306,
+    label: "      START"
+});
+
+
+
+// main menu
+var drawSplashScreen = function() {
+stillPlaying = false;
+background(255, 213, 107); 
+textSize(46);
+fill(115, 115, 115);
+text("WOLFY", 132,6,291,200);
+textSize(17);
+fill(0, 0, 0);
+text("how to play", 66,71,309,256);
+drawBitmoji(62,259,109);
+drawBitmojiSteven(341,289,110);
+drawWolfSplash(124,211,129);
+fill(0, 0, 0);
+textSize(16);
+text("Essam Abdulraouf",4,377,580,308);
+text("Steven Kernick",285,377,580,308);
+startButton.draw();
+};
+
+// starts the game when statrt button is pressed
+mouseClicked=function(){
+    if(startButton.isMouseInside()){
+        stillPlaying = true;
+    }
+};
+
+// draws main menu
+drawSplashScreen();
